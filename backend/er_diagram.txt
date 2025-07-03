@@ -1,0 +1,139 @@
+ER Diagram: User Model
+1. Entities:
+USER
+2. Attributes of USER:
+Attribute Name	Data Type	Properties / Constraints
+_id	ObjectId	Primary Key (PK)
+name	String	Required
+password	String	Required
+email	String	Required, Unique
+role	String	Enum: 'user', 'admin' (Default: 'user')
+otp	String	Optional
+otpExpiresAt	Date	Optional
+verified	Boolean	Default: false
+totalPoints	Number	Default: 0
+
+
+3. Relationships:
+USER has watched VIDEO
+Type: Many-to-Many (M:N)
+Explanation: A User can watch multiple Videos, and a Video can be watched by multiple Users. This relationship is implemented in the User schema via the watchedVideos array, which stores references to Video documents.
+Note: VIDEO is considered an external entity here as its schema was not provided.
+
+=================================================================================================
+
+
+1. Entities:
+USERPROFILE
+2. Attributes of USERPROFILE:
+Attribute Name	Data Type	Properties / Constraints
+_id	ObjectId	Primary Key (PK)
+userId	ObjectId	Foreign Key (FK) to USER, Required
+name	String	Required
+age	Number	Required
+gender	String	Required, Enum: 'Male', 'Female', 'Other'
+city	String	Required
+hobbies	Array of String	Required (Array)
+profilepicture	String	Default: ''
+createdAt	Date	Timestamp (automatically added)
+updatedAt	Date	Timestamp (automatically added)
+
+Export to Sheets
+3. Relationships:
+USER has USERPROFILE
+Type: One-to-One (1:1)
+Explanation: A User has one UserProfile, and each UserProfile belongs to a single User. This relationship is implemented in the UserProfile schema via the userId field, which references the User model.
+
+===============================================================================================================
+. Entities:
+CONTENT
+2. Attributes of CONTENT:
+Attribute Name	Data Type	Properties / Constraints
+_id	ObjectId	Primary Key (PK)
+post	Array of Embedded Document (Post)	Embedded Document (See Post Attributes below)
+userId	ObjectId	Foreign Key (FK) to USER, Required
+uploaderType	String	Enum: "user", "admin", Optional
+
+Export to Sheets
+2.1. Attributes of Embedded Document: POST (within CONTENT's post array)
+Attribute Name	Data Type	Properties / Constraints
+_id	ObjectId	Primary Key (PK) for embedded document
+title	String	Required
+description	String	Required
+media	String	Required
+categoryName	String	Required
+
+Export to Sheets
+3. Relationships:
+USER uploads / creates CONTENT
+
+Type: One-to-Many (1:N)
+Explanation: A User can upload/create many Content documents, but each Content document is created by only one User. This relationship is implemented in the Content schema via the userId field, which references the User model.
+CONTENT contains POST
+
+Type: One-to-Many (1:N) - Embedding
+Explanation: One Content document can contain multiple Post sub-documents within its post array. This is an embedded relationship, where Post documents are part of the Content document itself rather than separate collections.
+
+========================================================================================
+Entities:
+LEADERBOARD
+2. Attributes of LEADERBOARD:
+Attribute Name	Data Type	Properties / Constraints
+_id	ObjectId	Primary Key (PK)
+userId	ObjectId	Foreign Key (FK) to USER, Required, Unique
+totalPoints	Number	Default: 0
+watchedVideos	Array of ObjectId	References Challenge model
+
+Export to Sheets
+3. Relationships:
+USER has an entry on LEADERBOARD
+
+Type: One-to-One (1:1)
+Explanation: Each User can have at most one entry on the Leaderboard, and each Leaderboard entry belongs to a unique User. This is enforced by the unique: true constraint on userId.
+LEADERBOARD tracks completion of CHALLENGE
+
+Type: Many-to-Many (M:N)
+Explanation: A single Leaderboard entry can track multiple Challenges (via watchedVideos), and a single Challenge can be tracked by multiple Leaderboard entries.
+Note: Challenge is considered an external entity here as its schema was not provided.
+==============================================================================================================
+Entities:
+CHALLENGE
+2. Attributes of CHALLENGE:
+Attribute Name	Data Type	Properties / Constraints
+_id	ObjectId	Primary Key (PK)
+title	String	Required
+description	String	Required
+pointsPerVideo	Number	Required
+videos	Array of Embedded Document (Video)	Embedded Document (See Video Attributes below)
+createdAt	Date	Default: current timestamp
+
+Export to Sheets
+2.1. Attributes of Embedded Document: VIDEO (within CHALLENGE's videos array)
+Attribute Name	Data Type	Properties / Constraints
+_id	ObjectId	Primary Key (PK) for embedded document
+videoUrl	String	Required
+
+Export to Sheets
+3. Relationships:
+CHALLENGE contains VIDEO
+
+Type: One-to-Many (1:N) - Embedding
+Explanation: One Challenge document can contain multiple Video sub-documents within its videos array. This is an embedded relationship, where Video documents are part of the Challenge document itself rather than separate top-level collections.
+LEADERBOARD tracks completion of CHALLENGE
+
+Type: Many-to-Many (M:N)
+Explanation: A Leaderboard entry can track multiple Challenges (via its watchedVideos array), and a Challenge can be tracked by multiple Leaderboard entries.
+Note: This relationship connects to the previously defined Leaderboard model.
+===============================================================================================================
+ntities:
+CATEGORY
+2. Attributes of CATEGORY:
+Attribute Name	Data Type	Properties / Constraints
+_id	ObjectId	Primary Key (PK)
+categoryName	String	Required, Unique
+
+Export to Sheets
+3. Relationships:
+(No direct relationships via ObjectId references are defined in this schema or explicitly linked from previously provided schemas.)
+Conceptual Note: The categoryName field in the Post embedded document (within the Content model) conceptually relates to the Category model by sharing the same category name string. However, this is not a direct foreign key relationship using ObjectIds, but rather a denormalized field or a value-based link.
+==============================================================================================
