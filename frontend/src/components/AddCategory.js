@@ -5,6 +5,10 @@ import { useNavigate } from 'react-router-dom';
 import category from '../assets/category4.avif';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+// AddProductForm.js
+import config from '../Config';
+
+const baseUrl = config.BASE_URL;
 
 function AddCategory() {
   const [categoryName, setCategoryName] = useState('');
@@ -12,37 +16,35 @@ function AddCategory() {
 
   const handleAddCategory = async () => {
     if (!categoryName.trim()) {
-      toast.warn('⚠️ Please enter a category name');
+      toast.warn(' Please enter a category name');
       return;
     }
 
     try {
       const response = await axios.post(
-        'http://localhost:3000/admin/add-category',
+        `${baseUrl}/admin/add-category`,
         { categoryName: categoryName.trim() },
         { withCredentials: true }
       );
 
-      const message = response.data?.message || '✅ Category created successfully!';
+      const message = response.data?.message || ' Category created successfully!';
       toast.success(message);
       setCategoryName('');
     } catch (error) {
       const errMsg =
         error.response?.data?.message ||
         error.response?.data?.error ||
-        '❌ Something went wrong while adding category';
+        ' Something went wrong while adding category';
       toast.error(errMsg);
     }
   };
 
   return (
     <div className="d-flex" style={{ minHeight: '100vh' }}>
-      {/* Sidebar */}
       <div style={{ width: '240px' }}>
         <AdminDashboard />
       </div>
 
-      {/* Main Content with Background Image */}
       <main
         className="flex-grow-1 py-5 px-4"
         style={{
@@ -53,7 +55,6 @@ function AddCategory() {
           fontFamily: 'Segoe UI, sans-serif',
         }}
       >
-        {/* 🔙 Back Button */}
         <button
           className="btn d-flex align-items-center gap-2 px-3 py-2 mb-3"
           style={{
@@ -91,7 +92,7 @@ function AddCategory() {
           }}
         >
           <h2 className="text-center fw-bold mb-5" style={{ color: '#333' }}>
-            📂 Add New Category
+            Add New Category
           </h2>
 
           <div className="d-flex justify-content-center">
@@ -110,7 +111,7 @@ function AddCategory() {
                 (e.currentTarget.style.transform = 'scale(1)')
               }
             >
-              <h5 className="text-primary fw-bold mb-3">➕ Create Category</h5>
+              <h5 className="text-primary fw-bold mb-3"> Create Category</h5>
 
               <input
                 type="text"
@@ -130,7 +131,6 @@ function AddCategory() {
           </div>
         </div>
 
-        {/* Toastify Container */}
         <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} />
       </main>
     </div>

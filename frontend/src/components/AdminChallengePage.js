@@ -1,20 +1,20 @@
-
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import AdminDashboard from './AdminDashboard';
-import challengeBg from '../assets/category4.avif'; // You can change image if needed
+import challengeBg from '../assets/category4.avif';
+// AddProductForm.js
+import config from '../Config';
 
+const baseUrl = config.BASE_URL;
 function Challenge() {
   const navigate = useNavigate();
 
   return (
     <div className="d-flex" style={{ minHeight: '100vh' }}>
-      {/* Sidebar */}
       <div style={{ width: '240px' }}>
         <AdminDashboard />
       </div>
 
-      {/* Main Content with Background Image */}
       <main
         className="flex-grow-1 py-5 px-4"
         style={{
@@ -33,11 +33,10 @@ function Challenge() {
             fontSize: '2rem',
           }}
         >
-          🎯 Challenge Management
+           Challenge Management
         </h2>
 
         <div className="d-flex justify-content-center flex-wrap gap-4">
-          {/* ➕ Create Challenge Card */}
           <div
             className="card border-0 shadow-sm p-4"
             style={{
@@ -50,7 +49,7 @@ function Challenge() {
             onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.03)')}
             onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
           >
-            <h5 className="text-primary fw-bold mb-3">➕ Create Challenge</h5>
+            <h5 className="text-primary fw-bold mb-3"> Create Challenge</h5>
             <p className="text-muted mb-4">Add a new challenge to the system.</p>
             <button
               className="btn btn-outline-primary w-100"
@@ -60,7 +59,6 @@ function Challenge() {
             </button>
           </div>
 
-          {/* 📥 Fetch Challenges Card */}
           <div
             className="card border-0 shadow-sm p-4"
             style={{
@@ -73,7 +71,7 @@ function Challenge() {
             onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.03)')}
             onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
           >
-            <h5 className="text-success fw-bold mb-3">📥 View Challenges</h5>
+            <h5 className="text-success fw-bold mb-3"> View Challenges</h5>
             <p className="text-muted mb-4">Browse all challenges in the system.</p>
             <button
               className="btn btn-outline-success w-100"

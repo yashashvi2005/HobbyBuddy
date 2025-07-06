@@ -3,7 +3,9 @@ import axios from "axios";
 import FooterPage from "./FooterPage";
 import NavbarPage from "./Navbarpage";
 import { Spinner } from "react-bootstrap";
+import config from '../Config';
 
+const baseUrl = config.BASE_URL;
 const Leaderboard = () => {
   const primary = '#a259ff';
   const secondary = '#ff66c4';
@@ -18,7 +20,7 @@ const Leaderboard = () => {
 
   const fetchLeaderboard = async () => {
     try {
-      const res = await axios.get("http://localhost:3000/user/fetch-leaderboard", {
+      const res = await axios.get(`${baseUrl}/user/fetch-leaderboard`, {
         withCredentials: true,
       });
       setUsers(res.data.users);
@@ -36,7 +38,7 @@ const Leaderboard = () => {
       <div style={{ backgroundColor: "#f9f4ff", minHeight: "100vh", paddingBottom: "50px" }}>
         <div className="container pt-5">
           <h2 className="text-center fw-bold mb-4" style={{ color: primary }}>
-            🏆 Leaderboard
+             Leaderboard
           </h2>
 
           {loading && (

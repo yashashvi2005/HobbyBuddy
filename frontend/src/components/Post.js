@@ -3,16 +3,17 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import AdminDashboard from './AdminDashboard';
 import postbg from '../assets/post1.avif';
+// AddProductForm.js
+import config from '../Config';
 
+const baseUrl = config.BASE_URL;
 function Post() {
   const navigate = useNavigate();
 
   return (
     <div className="d-flex" style={{ minHeight: '100vh' }}>
-      {/* Sidebar */}
       <AdminDashboard />
 
-      {/* Main Content */}
       <main
         className="flex-grow-1 d-flex justify-content-center align-items-center"
         style={{
@@ -33,11 +34,10 @@ function Post() {
               fontSize: '2.2rem',
             }}
           >
-            📝 Post Management
+             Post Management
           </h2>
 
           <div className="d-flex justify-content-center gap-4 flex-wrap">
-            {/* Add Post */}
             <div
               className="card border-0 shadow p-4"
               style={{
@@ -56,7 +56,7 @@ function Post() {
                 e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.1)';
               }}
             >
-              <h5 className="text-primary fw-bold mb-2">➕ Add Post</h5>
+              <h5 className="text-primary fw-bold mb-2"> Add Post</h5>
               <p className="text-muted mb-4">Create a new post for users to explore and interact with.</p>
               <button
                 className="btn btn-outline-primary w-100"
@@ -66,7 +66,6 @@ function Post() {
               </button>
             </div>
 
-            {/* Fetch All Posts */}
             <div
               className="card border-0 shadow p-4"
               style={{
@@ -85,7 +84,7 @@ function Post() {
                 e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.1)';
               }}
             >
-              <h5 className="text-success fw-bold mb-2">📥 View Posts</h5>
+              <h5 className="text-success fw-bold mb-2"> View Posts</h5>
               <p className="text-muted mb-4">See and manage all posts published by users or admins.</p>
               <button
                 className="btn btn-outline-success w-100"

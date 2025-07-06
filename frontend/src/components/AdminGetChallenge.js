@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import AdminDashboard from './AdminDashboard';
+// AddProductForm.js
+import config from '../Config';
+
+const baseUrl = config.BASE_URL;
 
 function ChallengeList() {
   const [challenges, setChallenges] = useState([]);
@@ -20,7 +24,7 @@ function ChallengeList() {
 
   const fetchChallenges = async () => {
     try {
-      const res = await axios.get('http://localhost:3000/admin/fetch-all-challenges', {
+      const res = await axios.get(`${baseUrl}/admin/fetch-all-challenges`, {
         withCredentials: true,
       });
       setChallenges(res.data.challenges);
@@ -36,7 +40,7 @@ function ChallengeList() {
     if (!window.confirm("Kya aap is challenge ko delete karna chahte ho?")) return;
 
     try {
-      const res = await axios.delete(`http://localhost:3000/admin/delete-challenge/${challengeId}`, {
+      const res = await axios.delete(`${baseUrl}/admin/delete-challenge/${challengeId}`, {
         withCredentials: true,
       });
       setMessage(res.data.message);
@@ -83,7 +87,7 @@ function ChallengeList() {
 
     try {
       const res = await axios.put(
-        `http://localhost:3000/admin/update-challenge/${editingChallenge}`,
+        `${baseUrl}/admin/update-challenge/${editingChallenge}`,
         payload,
         {
           headers: { 'Content-Type': 'multipart/form-data' },
@@ -105,7 +109,7 @@ function ChallengeList() {
       </div>
 
       <div className="container-fluid px-4 py-4" style={{ width: '100%' }}>
-        <h2 className="text-center mb-4 text-primary fw-bold">🔥 All Challenges</h2>
+        <h2 className="text-center mb-4 text-primary fw-bold"> All Challenges</h2>
 
         {loading && <div className="alert alert-info">Loading challenges...</div>}
         {message && <div className="alert alert-info">{message}</div>}
@@ -115,13 +119,13 @@ function ChallengeList() {
             className="btn btn-outline-primary rounded-pill"
             onClick={() => window.history.back()}
           >
-            ⬅️ Back
+             Back
           </button>
         </div>
 
         {editingChallenge && (
           <div className="card mb-4 p-4 shadow" style={{ border: '2px solid #007bff', backgroundColor: '#e9f3ff' }}>
-            <h4 className="text-primary mb-3">✏️ Edit Challenge</h4>
+            <h4 className="text-primary mb-3">Edit Challenge</h4>
             <form onSubmit={updateChallenge} encType="multipart/form-data">
               <div className="mb-3">
                 <label className="form-label">Title</label>
@@ -164,10 +168,10 @@ function ChallengeList() {
                   multiple
                   onChange={handleVideoChange}
                 />
-                <small className="text-muted">⚠️ Purane videos overwrite ho jaayenge</small>
+                <small className="text-muted">Purane videos overwrite ho jaayenge</small>
               </div>
-              <button type="submit" className="btn btn-primary me-2">✅ Update</button>
-              <button type="button" className="btn btn-outline-secondary" onClick={cancelEdit}>❌ Cancel</button>
+              <button type="submit" className="btn btn-primary me-2"> Update</button>
+              <button type="button" className="btn btn-outline-secondary" onClick={cancelEdit}> Cancel</button>
             </form>
           </div>
         )}
@@ -205,8 +209,8 @@ function ChallengeList() {
                   </p>
 
                   <div className="d-flex gap-2 mt-3">
-                    <button className="btn btn-outline-danger" onClick={() => deleteChallenge(challenge._id)}>🗑 Delete</button>
-                    <button className="btn btn-outline-primary" onClick={() => startEditing(challenge)}>✏️ Edit</button>
+                    <button className="btn btn-outline-danger" onClick={() => deleteChallenge(challenge._id)}> Delete</button>
+                    <button className="btn btn-outline-primary" onClick={() => startEditing(challenge)}> Edit</button>
                   </div>
                 </div>
               </div>

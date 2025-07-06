@@ -5,8 +5,11 @@ import NavbarPage from "./Navbarpage";
 import FooterPage from "./FooterPage";
 import SettingAllPost from "./SettingAllPost";
 import UserProfileForm from "./UserProfileForm";
-import UserProfileDetails from "./UserProfileDetails"; // ⬅️ new component
+import UserProfileDetails from "./UserProfileDetails"; 
+// AddProductForm.js
+import config from '../Config';
 
+const baseUrl = config.BASE_URL;
 const SettingPage = () => {
   const [showSidebar, setShowSidebar] = useState(true);
   const [selectedPage, setSelectedPage] = useState("posts");
@@ -20,7 +23,7 @@ const SettingPage = () => {
       case "profile":
         return <UserProfileForm />;
       case "myProfile":
-        return <UserProfileDetails />; // ⬅️ new render
+        return <UserProfileDetails />; 
       default:
         return <h4 className="text-secondary">Welcome</h4>;
     }
@@ -90,7 +93,6 @@ const SettingPage = () => {
                     <span>Create Profile</span>
                   </ListGroup.Item>
 
-                  {/* ➕ My Profile Option */}
                   <ListGroup.Item
                     action
                     onClick={() => setSelectedPage("myProfile")}

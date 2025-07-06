@@ -2,7 +2,10 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import logo from '../assets/hobbybuddy_logo.png';
 import bg from '../assets/background.avif';
+// AddProductForm.js
+import config from '../Config';
 
+const baseUrl = config.BASE_URL;
 function LandingPage() {
   const navigate = useNavigate();
 
@@ -33,12 +36,8 @@ function LandingPage() {
 
   return (
     <div className="position-relative vh-100 d-flex justify-content-center align-items-center">
-      {/* Background Image */}
       <div style={backgroundStyle}></div>
-      {/* Overlay */}
       <div style={overlayStyle}></div>
-
-      {/* Content */}
       <div className="text-center text-white z-1">
         <img src={logo} alt="Logo" className="mb-4" style={{ width: '200px' }} />
         <h1 className="fw-bold mb-3">Your Interests. Your Arena.</h1>

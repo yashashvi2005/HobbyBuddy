@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import AdminDashboard from "./AdminDashboard";
+// AddProductForm.js
+import config from '../Config';
 
+const baseUrl = config.BASE_URL;
 const Leaderboard = () => {
   const [users, setUsers] = useState([]);
   const [message, setMessage] = useState("");
@@ -13,7 +16,7 @@ const Leaderboard = () => {
 
   const fetchLeaderboard = async () => {
     try {
-      const res = await axios.get("http://localhost:3000/admin/fetch-leaderboard", {
+      const res = await axios.get(`${baseUrl}/admin/fetch-leaderboard`, {
         withCredentials: true,
       });
       setUsers(res.data.users);
@@ -27,19 +30,14 @@ const Leaderboard = () => {
 
   return (
     <div className="d-flex">
-      {/* Sidebar */}
       <AdminDashboard />
 
-      {/* Main Content */}
       <div className="flex-grow-1 p-4" style={{ minHeight: '100vh', backgroundColor: "#ffffff" }}>
-        {/* Heading */}
-        <h2 className="text-center fw-bold text-primary mb-4">🏅 Leaderboard</h2>
+        <h2 className="text-center fw-bold text-primary mb-4"> Leaderboard</h2>
 
-        {/* Status Messages */}
         {loading && <div className="alert alert-info text-center">Loading leaderboard...</div>}
         {message && <div className="alert alert-danger text-center">{message}</div>}
 
-        {/* Leaderboard Table */}
         <div className="table-responsive">
           <table className="table table-bordered shadow-sm text-center leaderboard-table">
             <thead style={{ backgroundColor: "#007bff", color: "#ffffff" }}>
@@ -67,7 +65,6 @@ const Leaderboard = () => {
           </table>
         </div>
 
-        {/* Custom CSS */}
         <style>{`
           .leaderboard-table {
             border-radius: 10px;

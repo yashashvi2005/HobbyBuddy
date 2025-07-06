@@ -2,18 +2,19 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import AdminDashboard from './AdminDashboard';
 import category from "../assets/category4.avif";
+// AddProductForm.js
+import config from '../Config';
 
+const baseUrl = config.BASE_URL;
 function Category() {
   const navigate = useNavigate();
 
   return (
     <div className="d-flex" style={{ minHeight: '100vh' }}>
-      {/* Sidebar */}
       <div style={{ width: '240px', zIndex: 2 }}>
         <AdminDashboard />
       </div>
 
-      {/* Main Content with background image */}
       <main
         className="flex-grow-1 py-5 px-3 px-md-5"
         style={{
@@ -39,11 +40,10 @@ function Category() {
               fontSize: '2.2rem',
             }}
           >
-            📂 Category Management
+             Category Management
           </h2>
 
           <div className="d-flex justify-content-center gap-4 flex-wrap">
-            {/* Add Category */}
             <div
               className="card border-0 shadow p-4"
               style={{
@@ -62,7 +62,7 @@ function Category() {
                 e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.1)';
               }}
             >
-              <h5 className="text-primary fw-bold mb-2">➕ Add Category</h5>
+              <h5 className="text-primary fw-bold mb-2">Add Category</h5>
               <p className="text-muted mb-4">Create and manage new category entries easily.</p>
               <button
                 className="btn btn-outline-primary w-100"
@@ -72,7 +72,6 @@ function Category() {
               </button>
             </div>
 
-            {/* View Categories */}
             <div
               className="card border-0 shadow p-4"
               style={{
@@ -91,7 +90,7 @@ function Category() {
                 e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.1)';
               }}
             >
-              <h5 className="text-success fw-bold mb-2">📥 View Categories</h5>
+              <h5 className="text-success fw-bold mb-2"> View Categories</h5>
               <p className="text-muted mb-4">Browse and manage existing categories in the system.</p>
               <button
                 className="btn btn-outline-success w-100"

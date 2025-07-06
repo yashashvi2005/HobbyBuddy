@@ -1,5 +1,8 @@
 import { Link } from "react-router-dom";
+// AddProductForm.js
+import config from '../Config';
 
+const baseUrl = config.BASE_URL;
 function FooterPage (){
         const primary = '#a259ff';      // Main purple color
     const secondary = '#ff66c4';    // Highlight pink color
@@ -8,7 +11,7 @@ function FooterPage (){
         <>   
             <footer style={{ backgroundColor: primary }} className="text-white text-center mt-5 border-top">
                 <div className="p-4">
-                    © 2025 <strong>Hobby Buddy</strong> | Created with ❤️ by <span style={{ color: secondary }}>Yashashvi Jain</span>
+                    © 2025 <strong>Hobby Buddy</strong> | Created with  by <span style={{ color: secondary }}>Yashashvi Jain</span>
                     <br />
                     <small>
                         Follow us on:

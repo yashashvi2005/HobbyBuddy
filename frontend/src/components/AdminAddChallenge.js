@@ -3,6 +3,10 @@ import axios from "axios";
 import AdminDashboard from "./AdminDashboard";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+// AddProductForm.js
+import config from '../Config';
+
+const baseUrl = config.BASE_URL;
 
 const CreateChallengeForm = () => {
   const [title, setTitle] = useState("");
@@ -18,7 +22,7 @@ const CreateChallengeForm = () => {
     e.preventDefault();
 
     if (!title || !description || !pointsPerVideo || videos.length === 0) {
-      toast.warn("⚠️ Please fill in all fields and upload at least one video.");
+      toast.warn("Please fill in all fields and upload at least one video.");
       return;
     }
 
@@ -32,31 +36,29 @@ const CreateChallengeForm = () => {
     }
 
     try {
-      const res = await axios.post("http://localhost:3000/admin/add-challenge", formData, {
+      const res = await axios.post(`${baseUrl}/admin/add-challenge`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
         withCredentials: true,
       });
 
-      toast.success("✅ Challenge created successfully!");
+      toast.success(" Challenge created successfully!");
       setTitle("");
       setDescription("");
       setPointsPerVideo("");
       setVideos([]);
-      document.getElementById("videoInput").value = ""; // reset file input
+      document.getElementById("videoInput").value = ""; 
     } catch (err) {
       console.error(err);
-      toast.error(err.response?.data?.message || "❌ Error creating challenge");
+      toast.error(err.response?.data?.message || " Error creating challenge");
     }
   };
 
   return (
     <div className="d-flex" style={{ minHeight: "100vh" }}>
-      {/* Sidebar */}
       <AdminDashboard />
 
-      {/* Main content */}
       <main
         className="flex-grow-1 py-5 px-3 px-md-5"
         style={{
@@ -65,7 +67,6 @@ const CreateChallengeForm = () => {
           marginLeft: "-47px",
         }}
       >
-        {/* 🔙 Back Button */}
         <button
           className="btn btn-outline-primary mb-3 rounded-pill"
           onClick={() => window.history.back()}
@@ -74,7 +75,7 @@ const CreateChallengeForm = () => {
             marginLeft: "-50px",
           }}
         >
-          ⬅️ Back
+           Back
         </button>
 
         <div className="container d-flex justify-content-center align-items-center">
@@ -88,7 +89,7 @@ const CreateChallengeForm = () => {
             }}
           >
             <h2 className="text-center fw-bold mb-4 text-primary">
-              🎯 Create New Challenge
+               Create New Challenge
             </h2>
 
             <form onSubmit={handleSubmit} encType="multipart/form-data">
@@ -147,7 +148,7 @@ const CreateChallengeForm = () => {
                   type="submit"
                   className="btn btn-primary w-100 py-2 rounded-pill"
                 >
-                  🚀 Create Challenge
+                   Create Challenge
                 </button>
               </div>
             </form>

@@ -1,18 +1,46 @@
-import React from 'react';
-import { NavLink, Outlet } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { NavLink, Outlet, useNavigate } from 'react-router-dom';
+
+import axios from 'axios';
+// AddProductForm.js
+import config from '../Config';
+
+const baseUrl = config.BASE_URL;
 
 function AdminDashboard() {
+  const navigate = useNavigate();
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
+  const [isAdmin, setIsAdmin] = useState(null); // null: unknown, true/false: known
+
   const navItems = [
-    { path: '/admin-dashboard/category', label: '📂 Category' },
-    { path: '/admin-dashboard/post', label: '📝 Post' },
-    { path: '/admin-dashboard/challenge', label: '🏆 Challenge' },
-    { path: '/admin-dashboard/user', label: '👤 User' },
-    { path: '/admin-dashboard/leaderboard', label: '🥇 Leaderboard' },
+    { path: '/admin-dashboard/category', label: ' Category' },
+    { path: '/admin-dashboard/post', label: ' Post' },
+    { path: '/admin-dashboard/challenge', label: ' Challenge' },
+    { path: '/admin-dashboard/user', label: ' User' },
+    { path: '/admin-dashboard/leaderboard', label: ' Leaderboard' },
   ];
+
+  useEffect(() => {
+    axios
+      .get(`${baseUrl}/admin/check-auth`, { withCredentials: true })
+      .then((res) => {
+        if (res.data.role === "admin") {
+          setIsAdmin(true); 
+        } else {
+          navigate("/sign-in");
+        }
+      })
+      .catch(() => {
+        navigate("/sign-in"); 
+      });
+  }, [navigate]);
+
+  if (isAdmin === null) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="d-flex" style={{ fontFamily: 'Segoe UI, sans-serif' }}>
-      {/* Sidebar */}
       <aside
         className="text-white d-flex flex-column shadow"
         style={{
@@ -26,13 +54,11 @@ function AdminDashboard() {
         }}
       >
         <div>
-          {/* Branding */}
           <div className="text-center mb-4">
-            <h4 className="fw-bold mb-1">🎯 Hobby Buddy</h4>
+            <h4 className="fw-bold mb-1"> Hobby Buddy</h4>
             <small className="fst-italic">YOUR INTEREST, YOUR ARENA</small>
           </div>
 
-          {/* Navigation */}
           <nav className="mt-5">
             {navItems.map((item, idx) => (
               <NavLink
@@ -51,7 +77,6 @@ function AdminDashboard() {
         </div>
       </aside>
 
-      {/* Page Content */}
       <main
         className="flex-grow-1 p-4"
         style={{

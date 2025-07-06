@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+// AddProductForm.js
+import config from '../Config';
+
+const baseUrl = config.BASE_URL;
 
 function FetchUsers() {
   const [users, setUsers] = useState([]);
@@ -7,7 +11,7 @@ function FetchUsers() {
 
   const fetchUsers = async () => {
     try {
-      const res = await axios.get('http://localhost:3000/user/fetch-users');
+      const res = await axios.get(`${baseUrl}/user/fetch-users`);
       setUsers(res.data.users);
     } catch (err) {
       setError('Failed to fetch users');
@@ -20,7 +24,7 @@ function FetchUsers() {
 
   return (
     <div className="container py-5">
-      <h2 className="text-center mb-5 fw-bold">👥 All Users</h2>
+      <h2 className="text-center mb-5 fw-bold"> All Users</h2>
       {error && <div className="alert alert-danger">{error}</div>}
 
       <div className="row g-4">
@@ -52,7 +56,6 @@ function FetchUsers() {
         ))}
       </div>
 
-      {/* Extra Styling */}
       <style>{`
         .user-card:hover {
           transform: translateY(-5px);

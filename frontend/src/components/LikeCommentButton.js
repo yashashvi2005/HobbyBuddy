@@ -1,17 +1,19 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import CommentBox from "./CommentBox"; // ✅ Import your CommentBox
+import CommentBox from "./CommentBox"; 
+// AddProductForm.js
+import config from '../Config';
 
+const baseUrl = config.BASE_URL;
 const LikeCommentButtons = ({ contentId }) => {
   const [liked, setLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
   const [commentCount, setCommentCount] = useState(0);
-  const [showComments, setShowComments] = useState(false); // 👈 For toggle
+  const [showComments, setShowComments] = useState(false); 
 
   useEffect(() => {
-    // 🧡 Get like status + count
     axios
-      .get(`http://localhost:3000/likecomment/like/status/${contentId}`, {
+      .get(`${baseUrl}/likecomment/like/status/${contentId}`, {
         withCredentials: true,
       })
       .then((res) => {
@@ -19,19 +21,18 @@ const LikeCommentButtons = ({ contentId }) => {
         setLikeCount(res.data.likeCount || 0);
       })
       .catch((err) => {
-        console.error("❌ Failed to get like status", err);
+        console.error(" Failed to get like status", err);
       });
 
-    // 💬 Get comment count
     axios
-      .get(`http://localhost:3000/likecomment/comment/${contentId}`, {
+      .get(`${baseUrl}/likecomment/comment/${contentId}`, {
         withCredentials: true,
       })
       .then((res) => {
         setCommentCount(res.data.comments?.length || 0);
       })
       .catch((err) => {
-        console.error("❌ Failed to get comment count", err);
+        console.error(" Failed to get comment count", err);
       });
   }, [contentId]);
 
@@ -39,20 +40,19 @@ const LikeCommentButtons = ({ contentId }) => {
     try {
       const route = liked ? "unlike" : "like";
       await axios.post(
-        `http://localhost:3000/likecomment/${route}`,
+        `${baseUrl}/likecomment/${route}`,
         { contentId },
         { withCredentials: true }
       );
       setLiked(!liked);
       setLikeCount((prev) => (liked ? prev - 1 : prev + 1));
     } catch (err) {
-      console.error("❌ Like/unlike error:", err);
+      console.error(" Like/unlike error:", err);
     }
   };
 
   return (
     <div className="mt-3">
-      {/* 👍 Like & 💬 Comment Buttons */}
       <div className="d-flex justify-content-between">
         <button className="btn btn-outline-danger btn-sm" onClick={handleLike}>
           {liked ? "💔 Unlike" : "❤️ Like"} ({likeCount})
@@ -65,7 +65,6 @@ const LikeCommentButtons = ({ contentId }) => {
         </button>
       </div>
 
-      {/* 🗨️ Toggle CommentBox */}
       {showComments && <CommentBox contentId={contentId} />}
     </div>
   );

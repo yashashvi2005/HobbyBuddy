@@ -5,6 +5,10 @@ import postbg from "../assets/post1.avif";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
+// AddProductForm.js
+import config from '../Config';
+
+const baseUrl = config.BASE_URL;
 
 const AddPostForm = () => {
   const [post, setPost] = useState({
@@ -35,27 +39,25 @@ const AddPostForm = () => {
     formData.append("media", mediaFile);
 
     try {
-      const res = await axios.post("http://localhost:3000/admin/add-post", formData, {
+      const res = await axios.post(`${baseUrl}/admin/add-post`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
         withCredentials: true,
       });
 
-      toast.success(res.data.message || "✅ Post added successfully!");
+      toast.success(res.data.message || "Post added successfully!");
       setPost({ title: "", description: "", categoryName: "" });
       setMediaFile(null);
       document.getElementById("mediaInput").value = "";
     } catch (err) {
-      const msg = err.response?.data?.message || err.response?.data?.error || "❌ Failed to add post.";
+      const msg = err.response?.data?.message || err.response?.data?.error || "Failed to add post.";
       toast.error(msg);
     }
   };
 
   return (
     <div className="d-flex" style={{ minHeight: "100vh" }}>
-      {/* Sidebar */}
       <AdminDashboard />
 
-      {/* Main Content */}
       <main
         className="flex-grow-1 d-flex align-items-center justify-content-center px-4 py-5"
         style={{
@@ -64,10 +66,9 @@ const AddPostForm = () => {
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
           fontFamily: "Segoe UI, sans-serif",
-          marginLeft: "-47px", // match AllPosts sidebar layout
+          marginLeft: "-47px", 
         }}
       >
-         {/* 🔙 Back Button */}
             <button
               className="btn btn-outline-primary mb-3 rounded-pill"
               onClick={() => window.history.back()}
@@ -75,7 +76,7 @@ const AddPostForm = () => {
                 marginLeft:"-50px"
               }}
             >
-              ⬅️ Back
+               Back
             </button>
         <div
           className="card p-4 shadow-lg w-100"
@@ -86,7 +87,7 @@ const AddPostForm = () => {
             backdropFilter: "blur(5px)",
           }}
         >
-          <h2 className="text-center text-primary fw-bold mb-4">📝 Add New Post</h2>
+          <h2 className="text-center text-primary fw-bold mb-4"> Add New Post</h2>
 
           <form onSubmit={handleSubmit} encType="multipart/form-data">
             <div className="mb-3">

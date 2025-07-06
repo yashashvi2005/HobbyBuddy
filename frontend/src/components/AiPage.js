@@ -6,7 +6,10 @@ import { Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+// AddProductForm.js
+import config from '../Config';
 
+const baseUrl = config.BASE_URL;
 const HobbyAI = () => {
   const [hobby, setHobby] = useState('');
   const [question, setQuestion] = useState('');
@@ -23,7 +26,7 @@ const HobbyAI = () => {
     setLoading(true);
 
     try {
-      const res = await axios.post('http://localhost:3000/ai/ask', { hobby, question });
+      const res = await axios.post(`${baseUrl}/ai/ask`, { hobby, question });
       if (res.data.success) {
         setAnswer(res.data.answer);
         toast.success('Answer received successfully!');

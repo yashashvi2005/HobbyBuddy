@@ -3,7 +3,10 @@ import { Container, Form, Button } from 'react-bootstrap';
 import { useNavigate, Link } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+// AddProductForm.js
+import config from '../Config';
 
+const baseUrl = config.BASE_URL;
 const SignInPage = () => {
   const primary = '#a259ff';
   const secondary = '#ff66c4';
@@ -57,7 +60,7 @@ const SignInPage = () => {
       setLoading(true);
 
       try {
-        const res = await fetch('http://localhost:3000/user/sign-in', {
+        const res = await fetch(`${baseUrl}/user/sign-in`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           credentials: 'include',
@@ -67,8 +70,8 @@ const SignInPage = () => {
         const data = await res.json();
 
         if (data.message === 'Sign In Success') {
-          toast.success(`Welcome back, ${data.user.name}! 🎉`);
-          appendToConversation('bot', `Welcome back, ${data.user.name}! 🎉`);
+          toast.success(`Welcome back, ${data.user.name}! `);
+          appendToConversation('bot', `Welcome back, ${data.user.name}! `);
           localStorage.setItem('userId', data.user._id);
           setStep(2);
         } else if (data.error) {
@@ -97,7 +100,6 @@ const SignInPage = () => {
         <div className="w-100" style={{ maxWidth: '500px', backgroundColor: 'white', borderRadius: '20px', padding: '25px', boxShadow: '0 0 15px rgba(0,0,0,0.1)' }}>
           <h4 className="text-center mb-4 fw-bold" style={{ color: primary }}>Sign In</h4>
 
-          {/* Chat Conversation */}
           <div style={{ maxHeight: '300px', overflowY: 'auto', marginBottom: '20px' }}>
             {conversation.map((msg, index) => (
               <div key={index} className={`text-${msg.from === 'bot' ? 'start' : 'end'} mb-2`}>
@@ -116,26 +118,6 @@ const SignInPage = () => {
               </div>
             ))}
           </div>
-
-          {/* Input Form */}
-          {/* {step < 2 && (
-            <Form onSubmit={handleSubmit} className="d-flex">
-              <Form.Control
-                type={step === 1 ? 'password' : 'text'}
-                placeholder={step === 0 ? 'Enter your email' : 'Enter your password'}
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                required
-              />
-              <Button
-                type="submit"
-                style={{ backgroundColor: primary, border: 'none', marginLeft: '10px' }}
-                disabled={loading}
-              >
-                {loading ? '...' : 'Send'}
-              </Button>
-            </Form>
-          )} */}
           {step < 2 && (
   <>
     <Form onSubmit={handleSubmit} className="d-flex">
@@ -154,19 +136,10 @@ const SignInPage = () => {
         {loading ? '...' : 'Send'}
       </Button>
     </Form>
-
-    {/* Forgot Password Link */}
-    {/* <p className="mt-2 text-center">
-      Forgot password?{' '}
-      <span onClick={() => navigate('/forgot-password')} style={{ color: primary, cursor: 'pointer' }}>
-        Reset here
-      </span>
-    </p> */}
   </>
 )}
 
 
-          {/* Success Redirect Button */}
           {step === 2 && (
             <div className="text-center mt-4">
               <Button
@@ -184,7 +157,6 @@ const SignInPage = () => {
             </div>
           )}
 
-          {/* Footer */}
           <div className="text-center mt-4">
             <span>
               New user?{' '}

@@ -10,7 +10,10 @@ import hobby3 from '../assets/dance1.jpg';
 import hobby4 from '../assets/photography.jpg';
 import hobby5 from '../assets/cookig.avif';
 import hobby6 from '../assets/paint1.avif';
+// AddProductForm.js
+import config from '../Config';
 
+const baseUrl = config.BASE_URL;
 function DashboardPage() {
   const primary = '#a259ff';
   const secondary = '#ff66c4';
@@ -27,40 +30,7 @@ function DashboardPage() {
   return (
     <>
       <NavbarPage />
-
-      {/* 🎥 Hero Video Section */}
-      {/* <div style={{ position: 'relative', height: '640px', overflow: 'hidden' }}>
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          style={{
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            filter: 'brightness(0.6)'
-          }}
-          src="/dashboard.mp4"
-        />
-        <div
-          style={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            color: 'white',
-            textAlign: 'center',
-            padding: '0 20px'
-          }}
-        >
-          <h1 style={{ fontWeight: 'bold', fontSize: '3rem' }}>Welcome to Hobby Buddy</h1>
-          <p style={{ fontSize: '1.3rem', marginTop: '10px' }}>Your Interests, Your Arena 🎯</p>
-        </div>
-      </div> */}
-
-      {/* 📖 About Us Section */}
-      <div style={{ backgroundColor: '#f9f4ff' }}>
+          <div style={{ backgroundColor: '#f9f4ff' }}>
         <Container className="py-5 mt-4">
           <h3 className="text-center fw-bold mb-5" style={{ color: primary }}>About Us</h3>
           <Row className="align-items-center">
@@ -105,7 +75,6 @@ function DashboardPage() {
         </Container>
       </div>
 
-      {/* 🎨 Hobbies Section */}
       <Container className="my-5 py-4 px-3 rounded" style={{ backgroundColor: '#f0e6ff' }}>
         <div className="text-center mb-4">
           <h3 className="fw-bold">We Have These <span style={{ color: secondary }}>Hobbies</span></h3>

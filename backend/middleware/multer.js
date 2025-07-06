@@ -2,7 +2,6 @@ import multer from "multer";
 import path from "path";
 import fs from "fs";
 
-// Ensure folders exist
 const makeFolder = (folderPath) => {
   if (!fs.existsSync(folderPath)) {
     fs.mkdirSync(folderPath, { recursive: true });
@@ -12,7 +11,6 @@ const makeFolder = (folderPath) => {
 makeFolder("uploads/photos");
 makeFolder("uploads/videos");
 
-// Storage config
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     const ext = path.extname(file.originalname).toLowerCase();
@@ -31,7 +29,6 @@ const storage = multer.diskStorage({
   }
 });
 
-// File filter
 const fileFilter = (req, file, cb) => {
   const ext = path.extname(file.originalname).toLowerCase();
   const allowedImage = [".jpg", ".jpeg", ".png"];
@@ -48,10 +45,8 @@ const fileFilter = (req, file, cb) => {
 
 const upload = multer({ storage, fileFilter });
 
-//  export a single file handler for profilepicture (photo upload)
 export const uploadSingleMedia = upload.single("media");
 
-// (optional) export multi file handler for later if needed
 export const uploadMedia = upload.fields([
   { name: "photos", maxCount: 5 },
   { name: "videos", maxCount: 2 }

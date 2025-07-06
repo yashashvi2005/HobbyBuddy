@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Spinner, Card, Row, Col, Alert, Button, Form, Image } from "react-bootstrap";
+import { Spinner, Card, Row, Col, Alert, Button, Form } from "react-bootstrap";
+import config from '../Config';
+
+const baseUrl = config.BASE_URL;
 
 const UserProfileDetails = () => {
   const [profile, setProfile] = useState(null);
@@ -24,7 +27,7 @@ const UserProfileDetails = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/userprofile/fetch/me", {
+        const response = await axios.get(`${baseUrl}/userprofile/fetch/me`, {
           withCredentials: true,
         });
 
@@ -41,12 +44,10 @@ const UserProfileDetails = () => {
           profilePhoto: null,
         });
 
-        setPhotoPreview(`http://localhost:3000${profile.profilepicture}`);
+        setPhotoPreview(`${baseUrl}${profile.profilepicture}`);
         setLoading(false);
       } catch (err) {
-        setError(
-          err.response?.data?.error || "Failed to fetch profile. Please try again."
-        );
+        setError(err.response?.data?.error || "Failed to fetch profile. Please try again.");
         setLoading(false);
       }
     };
@@ -59,7 +60,7 @@ const UserProfileDetails = () => {
     if (!confirmDelete) return;
 
     try {
-      const response = await axios.delete("http://localhost:3000/userprofile/delete", {
+      const response = await axios.delete(`${baseUrl}/userprofile/delete`, {
         withCredentials: true,
       });
 
@@ -67,13 +68,13 @@ const UserProfileDetails = () => {
       setProfile(null);
       setUserDetails(null);
     } catch (err) {
-      setError(
-        err.response?.data?.error || "Error deleting profile. Please try again."
-      );
+      setError(err.response?.data?.error || "Error deleting profile. Please try again.");
     }
   };
 
   const handleEditToggle = () => {
+    setError("");
+    setSuccess("");
     setEditMode((prev) => !prev);
   };
 
@@ -110,12 +111,13 @@ const UserProfileDetails = () => {
     data.append("gender", formData.gender);
     data.append("city", formData.city);
     data.append("hobbies", JSON.stringify(formData.hobbies));
+
     if (formData.profilePhoto) {
-      data.append("profilepicture", formData.profilePhoto);
+      data.append("media", formData.profilePhoto);
     }
 
     try {
-      const response = await axios.put("http://localhost:3000/userprofile/update/me", data, {
+      const response = await axios.put(`${baseUrl}/userprofile/update/me`, data, {
         withCredentials: true,
         headers: {
           "Content-Type": "multipart/form-data",
@@ -125,6 +127,7 @@ const UserProfileDetails = () => {
       setSuccess("Profile updated successfully!");
       setEditMode(false);
       setProfile(response.data.updatedUser);
+      setPhotoPreview(`${baseUrl}${response.data.updatedUser.profilepicture}`);
     } catch (err) {
       setError(err.response?.data?.error || "Error updating profile.");
     }

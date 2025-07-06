@@ -4,7 +4,10 @@ import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import GoogleSignIn from './GoogleSignIn';
+// AddProductForm.js
+import config from '../Config';
 
+const baseUrl = config.BASE_URL;
 const SignUpPage = () => {
   const primary = '#a259ff';
   const secondary = '#ff66c4';
@@ -68,7 +71,7 @@ const SignUpPage = () => {
       setLoading(true);
 
       try {
-        const res = await fetch('http://localhost:3000/user/sign-up', {
+        const res = await fetch(`${baseUrl}/user/sign-up`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(updatedForm)
@@ -112,7 +115,7 @@ const SignUpPage = () => {
     setLoading(true);
 
     try {
-      const res = await fetch('http://localhost:3000/user/verify-otp', {
+      const res = await fetch(`${baseUrl}/user/verify-otp`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: formData.email, otp })
@@ -120,7 +123,7 @@ const SignUpPage = () => {
 
       const data = await res.json();
       if (res.status === 200) {
-        appendMessage({ from: 'bot', text: `You're all set, ${formData.name}! Welcome to Hobby Buddy 🎉` });
+        appendMessage({ from: 'bot', text: `You're all set, ${formData.name}! Welcome to Hobby Buddy ` });
         toast.success(`Welcome ${formData.name}, account verified!`);
         setStep(4);
       } else {
@@ -151,7 +154,6 @@ const SignUpPage = () => {
         }}>
           <h4 className="text-center mb-4 fw-bold" style={{ color: primary }}>Sign Up</h4>
 
-          {/* Chat conversation window */}
           <div style={{ maxHeight: '300px', overflowY: 'auto', marginBottom: '20px' }}>
             {conversation.map((msg, index) => (
               <div key={index} className={`text-${msg.from === 'bot' ? 'start' : 'end'} mb-2`}>
@@ -169,7 +171,6 @@ const SignUpPage = () => {
             ))}
           </div>
 
-          {/* Input field for name/email/password */}
           {step < 3 && (
             <Form onSubmit={handleSubmit} className="d-flex">
               <Form.Control
@@ -191,7 +192,6 @@ const SignUpPage = () => {
             </Form>
           )}
 
-          {/* OTP verification step */}
           {step === 3 && (
             <Form onSubmit={handleOtpSubmit} className="d-flex">
               <Form.Control
@@ -206,26 +206,6 @@ const SignUpPage = () => {
               </Button>
             </Form>
           )}
-
-          {/* After verification */}
-          {/* {step === 4 && (
-            <div className="text-center mt-4">
-              <Button
-                onClick={() => navigate('/dashboard')}
-                style={{
-                  backgroundColor: secondary,
-                  border: 'none',
-                  padding: '10px 25px',
-                  borderRadius: '30px',
-                  fontWeight: 'bold'
-                }}
-              >
-                Go to Dashboard
-              </Button>
-            </div>
-          )} */}
-
-          {/* Google Sign-In & redirect */}
           <div className="text-center mt-4">
            <GoogleSignIn/>
             <p className="mt-3">

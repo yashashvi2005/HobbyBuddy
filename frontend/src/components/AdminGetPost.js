@@ -3,7 +3,11 @@ import AdminDashboard from "./AdminDashboard";
 import postbg from "../assets/post1.avif";
 import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import LikeCommentButtons from "./LikeCommentButton"; // ✅ Added for like/comment
+import LikeCommentButtons from "./LikeCommentButton";
+// AddProductForm.js
+import config from '../Config';
+
+const baseUrl = config.BASE_URL;
 
 const AllPosts = () => {
   const [posts, setPosts] = useState([]);
@@ -12,7 +16,7 @@ const AllPosts = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("http://localhost:3000/admin/fetch-all-post", {
+    fetch(`${baseUrl}/admin/fetch-all-post`, {
       credentials: "include",
     })
       .then((res) => res.json())
@@ -25,7 +29,7 @@ const AllPosts = () => {
       })
       .catch((err) => {
         console.error(err);
-        setError("⚠️ Network error");
+        setError(" Network error");
       });
   }, []);
 
@@ -41,10 +45,8 @@ const AllPosts = () => {
 
   return (
     <div className="d-flex" style={{ minHeight: "100vh" }}>
-      {/* Sidebar */}
       <AdminDashboard />
 
-      {/* Main Content */}
       <main
         className="flex-grow-1 px-4 py-4"
         style={{
@@ -66,10 +68,10 @@ const AllPosts = () => {
             value={selectedFilter}
             onChange={(e) => setSelectedFilter(e.target.value)}
           >
-            <option value="all">🔄 Show All</option>
-            <option value="image">🖼️ Photos</option>
-            <option value="video">🎬 Videos</option>
-            <option value="event">📅 Events</option>
+            <option value="all"> Show All</option>
+            <option value="image"> Photos</option>
+            <option value="video"> Videos</option>
+            <option value="event"> Events</option>
           </select>
         </div>
 
@@ -81,12 +83,11 @@ const AllPosts = () => {
             fontSize: "2.2rem",
           }}
         >
-          🖼️ All Posts Gallery
+           All Posts Gallery
         </h2>
 
         {error && <p className="text-danger text-center">{error}</p>}
 
-        {/* Cards Grid */}
         <div className="row g-4">
           {filteredPosts.map((post) => (
             <div key={post._id} className="col-sm-12 col-md-6 col-lg-4 d-flex justify-content-center">
@@ -109,7 +110,6 @@ const AllPosts = () => {
                   e.currentTarget.style.boxShadow = "0 4px 12px rgba(0, 0, 0, 0.1)";
                 }}
               >
-                {/* Media */}
                 {post.media?.match(/\.(jpg|jpeg|png|webp|gif)$/i) && (
                   <img
                     src={`http://localhost:3000/${post.media}`}
@@ -126,7 +126,6 @@ const AllPosts = () => {
                   </video>
                 )}
 
-                {/* Text Content */}
                 <h5 className="text-primary fw-bold">{post.title}</h5>
                 <p className="text-muted" style={{ minHeight: "40px" }}>
                   {post.description}
@@ -135,7 +134,6 @@ const AllPosts = () => {
                   <strong>User ID:</strong> {post.userId}
                 </div>
 
-                {/* ❤️ Like & 💬 Comment */}
                 <LikeCommentButtons contentId={post._id} />
               </div>
             </div>

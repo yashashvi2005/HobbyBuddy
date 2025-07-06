@@ -1,7 +1,9 @@
-// src/components/SettingProfile.js
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+// AddProductForm.js
+import config from '../Config';
 
+const baseUrl = config.BASE_URL;
 const SettingProfile = () => {
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -12,7 +14,7 @@ const SettingProfile = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/userprofile/fetch/me", {
+        const response = await axios.get(`${baseUrl}/userprofile/fetch/me`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -42,7 +44,6 @@ const SettingProfile = () => {
         <p><strong>Name:</strong> {profile.name}</p>
         <p><strong>Email:</strong> {profile.email}</p>
         <p><strong>Age:</strong> {profile.age}</p>
-        {/* Add more fields as per your schema */}
       </div>
     </div>
   );

@@ -30,6 +30,8 @@ import AdminLeaderBoard from "./components/AdminLeaderboard"
 import SettingPage from "./components/SettingPage"
 import GoogleSignIn from "./components/GoogleSignIn";
 import ForgotPassword from './components/ForgotPassword';
+import AdminProtectedRoute from "./components/AdminProtectedRoute";
+
 function App() {
   return (
     
@@ -39,11 +41,11 @@ function App() {
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/admin-dashboard" element={<AdminDashboard />}></Route>
         <Route path="/admin-dashboard/category" element={<Category />} />
-        <Route path="/admin-dashboard/post" element={<Post />} />
-        <Route path ="/admin/add-post" element={<AddPostAdmin/>} />   
-        <Route path="/admin-dashboard/user" element={<User />} />
-        <Route path ="/admin-dashboard/category/add" element={<AddCategory/>} />   
-        <Route path ="/admin-dashboard/category/fetch" element={<FetchCategory/>} />   
+        <Route path="/admin-dashboard/post" element={<AdminProtectedRoute><Post /></AdminProtectedRoute>} />
+        <Route path ="/admin/add-post" element={<AdminProtectedRoute><AddPostAdmin/></AdminProtectedRoute>} />   
+        <Route path="/admin-dashboard/user" element={<AdminProtectedRoute><User /></AdminProtectedRoute>} />
+        <Route path ="/admin-dashboard/category/add" element={<AdminProtectedRoute><AddCategory/></AdminProtectedRoute>} />   
+        <Route path ="/admin-dashboard/category/fetch" element={<AdminProtectedRoute><FetchCategory/></AdminProtectedRoute>} />   
          <Route path="/admin-login" element={<AdminSignIn />} />
         <Route path="/sign-up" element={<SignUpPage />} />
         <Route path="/sign-in" element={<SignInPage />} />
@@ -54,14 +56,14 @@ function App() {
         <Route path="/challenge" element={<ChallengePage />} />      
         <Route path="/add-friends" element={<AddFriendsPage />} /> 
         <Route path="/ask-ai" element={<Aipage />} />    
-        <Route path="/admin-dashboard/challenge" element={<AdminChallengePage />} />    
-        <Route path="/admin-dashboard/challenge/create" element={<AdminAddChallenge />} />                
-        <Route path="/admin-dashboard/challenge/fetch" element={<AdminGetChallenge />} />    
+        <Route path="/admin-dashboard/challenge" element={<AdminProtectedRoute><AdminChallengePage /></AdminProtectedRoute>} />    
+        <Route path="/admin-dashboard/challenge/create" element={<AdminProtectedRoute><AdminAddChallenge /></AdminProtectedRoute>} />                
+        <Route path="/admin-dashboard/challenge/fetch" element={<AdminProtectedRoute><AdminGetChallenge /></AdminProtectedRoute>} />    
         <Route path="/admin/fetch-posts" element={<AdminGetPost />} />    
         <Route path="/photos" element={<Photos />} />    
         <Route path="/videos" element={<Videos />} />    
         <Route path="/events" element={<Events />} />    
-        <Route path="/admin-dashboard/leaderboard" element={<AdminLeaderBoard />} />    
+        <Route path="/admin-dashboard/leaderboard" element={<AdminProtectedRoute><AdminLeaderBoard /></AdminProtectedRoute>} />    
         <Route path="/history" element={<SettingPage />} />    
         <Route path="/google-signin" element={<GoogleSignIn />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />

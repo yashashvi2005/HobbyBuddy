@@ -4,8 +4,11 @@ import axios from "axios";
 import NavbarPage from "./Navbarpage";
 import FooterPage from "./FooterPage";
 import { useNavigate } from "react-router-dom";
-import LikeCommentButtons from "./LikeCommentButton"; // ✅ import
+import LikeCommentButtons from "./LikeCommentButton"; 
+// AddProductForm.js
+import config from '../Config';
 
+const baseUrl = config.BASE_URL;
 const VideoGallery = () => {
   const [videos, setVideos] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -14,7 +17,7 @@ const VideoGallery = () => {
   const fetchVideos = async () => {
     try {
       setLoading(true);
-      const response = await axios.get("http://localhost:3000/post/fetch-all-posts-names", {
+      const response = await axios.get(`${baseUrl}/post/fetch-all-posts-names`, {
         withCredentials: true,
       });
 
@@ -58,7 +61,6 @@ const VideoGallery = () => {
         }}
       >
         <Container>
-          {/* 🔙 Back Button */}
           <div className="mb-4">
             <Button
               variant="light"
@@ -72,12 +74,12 @@ const VideoGallery = () => {
               }}
               onClick={() => navigate(-1)}
             >
-              ← Back
+               Back
             </Button>
           </div>
 
           <h2 className="text-center fw-bold mb-4" style={{ color: primary }}>
-            🎬 Explore Video Gallery
+             Explore Video Gallery
           </h2>
 
           {loading ? (
@@ -120,7 +122,6 @@ const VideoGallery = () => {
                         {video.description}
                       </Card.Text>
 
-                      {/* ❤️ Like & 💬 Comment Buttons */}
                       <LikeCommentButtons contentId={video._id} />
                     </Card.Body>
                   </Card>

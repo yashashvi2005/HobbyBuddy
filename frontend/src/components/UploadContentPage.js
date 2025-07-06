@@ -12,6 +12,9 @@ import NavbarPage from "./Navbarpage";
 import FooterPage from "./FooterPage";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import config from '../Config';
+
+const baseUrl = config.BASE_URL;
 
 const AddPost = () => {
   const [post, setPost] = useState({
@@ -55,7 +58,7 @@ const AddPost = () => {
     try {
       const token = document.cookie.split("token=")[1];
 
-      await axios.post("http://localhost:3000/post/add-post", formData, {
+      await axios.post(`${baseUrl}/post/add-post`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,
@@ -63,7 +66,7 @@ const AddPost = () => {
         withCredentials: true,
       });
 
-      toast.success("✅ Post created successfully!");
+      toast.success(" Post created successfully!");
 
       setPost({
         title: "",
@@ -74,7 +77,7 @@ const AddPost = () => {
       setFileName("");
       document.getElementById("mediaInput").value = "";
     } catch (error) {
-      toast.error("❌ " + (error.response?.data?.message || "Something went wrong"));
+      toast.error( + (error.response?.data?.message || "Something went wrong"));
     }
   };
 

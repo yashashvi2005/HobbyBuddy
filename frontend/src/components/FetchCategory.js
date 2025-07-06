@@ -5,7 +5,10 @@ import { useNavigate } from 'react-router-dom';
 import categoryBg from '../assets/category4.avif';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+// AddProductForm.js
+import config from '../Config';
 
+const baseUrl = config.BASE_URL;
 function FetchCategory() {
   const [categories, setCategories] = useState([]);
   const navigate = useNavigate();
@@ -13,7 +16,7 @@ function FetchCategory() {
   const fetchCategories = async () => {
     try {
       const res = await axios.get(
-        'http://localhost:3000/admin/fetch-category',
+        `${baseUrl}/admin/fetch-category`,
         { withCredentials: true }
       );
       setCategories(res.data.categories);
@@ -21,7 +24,7 @@ function FetchCategory() {
       const msg =
         err.response?.data?.message ||
         err.response?.data?.error ||
-        '❌ Failed to fetch categories';
+        'Failed to fetch categories';
       toast.error(msg);
     }
   };
@@ -40,17 +43,17 @@ function FetchCategory() {
             onClick={async () => {
               try {
                 await axios.delete(
-                  `http://localhost:3000/admin/delete-category/${id}`,
+                  `${baseUrl}/admin/delete-category/${id}`,
                   { withCredentials: true }
                 );
                 setCategories((prev) => prev.filter((cat) => cat._id !== id));
-                toast.dismiss(); // Close confirm toast
-                toast.success('🗑️ Category deleted successfully');
+                toast.dismiss();
+                toast.success(' Category deleted successfully');
               } catch (err) {
                 const msg =
                   err.response?.data?.message ||
                   err.response?.data?.error ||
-                  '❌ Failed to delete category';
+                  ' Failed to delete category';
                 toast.dismiss();
                 toast.error(msg);
               }
@@ -77,12 +80,10 @@ function FetchCategory() {
 
   return (
     <div className="d-flex" style={{ minHeight: '100vh' }}>
-      {/* Sidebar */}
       <div style={{ width: '240px' }}>
         <AdminDashboard />
       </div>
 
-      {/* Main Content with Background Image */}
       <main
         className="py-5 px-4 flex-grow-1"
         style={{
@@ -93,7 +94,6 @@ function FetchCategory() {
           fontFamily: 'Segoe UI, sans-serif',
         }}
       >
-        {/* Back Button */}
         <button
           className="btn d-flex align-items-center gap-2 px-3 py-2 mb-4"
           style={{
@@ -131,7 +131,7 @@ function FetchCategory() {
           }}
         >
           <h2 className="text-center fw-bold mb-4" style={{ color: '#333' }}>
-            📋 All Categories
+             All Categories
           </h2>
 
           {categories.length === 0 ? (
@@ -156,7 +156,7 @@ function FetchCategory() {
                   }
                 >
                   <h5 className="fw-bold text-primary mb-2">
-                    📁 {cat.categoryName}
+                     {cat.categoryName}
                   </h5>
                   <p className="text-muted small mb-3">ID: {cat._id}</p>
                   <button
@@ -171,7 +171,6 @@ function FetchCategory() {
           )}
         </div>
 
-        {/* Toastify Container */}
         <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} />
       </main>
     </div>

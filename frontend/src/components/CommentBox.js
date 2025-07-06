@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+// AddProductForm.js
+import config from '../Config';
 
+const baseUrl = config.BASE_URL;
 const CommentBox = ({ contentId }) => {
   const [comments, setComments] = useState([]);
   const [text, setText] = useState("");
@@ -8,23 +11,23 @@ const CommentBox = ({ contentId }) => {
 
   const fetchCurrentUser = async () => {
     try {
-      const res = await axios.get("http://localhost:3000/likecomment/me", {
+      const res = await axios.get(`${baseUrl}/likecomment/me`, {
         withCredentials: true,
       });
       setCurrentUserId(res.data.user._id);
     } catch (err) {
-      console.error("❌ Error fetching current user:", err);
+      console.error(" Error fetching current user:", err);
     }
   };
 
   const fetchComments = async () => {
     try {
-      const res = await axios.get(`http://localhost:3000/likecomment/comment/${contentId}`, {
+      const res = await axios.get(`${baseUrl}/likecomment/comment/${contentId}`, {
         withCredentials: true,
       });
       setComments(res.data.comments || []);
     } catch (err) {
-      console.error("❌ Error fetching comments:", err);
+      console.error(" Error fetching comments:", err);
     }
   };
 
@@ -37,20 +40,19 @@ const CommentBox = ({ contentId }) => {
     if (!text.trim()) return;
     try {
       await axios.post(
-        "http://localhost:3000/likecomment/comment",
+        `${baseUrl}/likecomment/comment`,
         { contentId, text },
         { withCredentials: true }
       );
       setText("");
       fetchComments();
     } catch (err) {
-      console.error("❌ Error adding comment:", err);
+      console.error(" Error adding comment:", err);
     }
   };
 
   return (
     <div className="mt-3">
-      {/* ✏️ Add comment input */}
       <div className="d-flex gap-2 mb-2">
         <input
           type="text"
@@ -64,7 +66,6 @@ const CommentBox = ({ contentId }) => {
         </button>
       </div>
 
-      {/* 🗒️ Comment list */}
       {comments.length === 0 ? (
         <p className="text-muted">No comments yet.</p>
       ) : (

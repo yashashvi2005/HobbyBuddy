@@ -1,7 +1,10 @@
 import { useNavigate } from 'react-router-dom';
 import logo from '../assets/hobbybuddy_logo.png'; // 📝 Place your logo here
 import bg from '../assets/landing.avif';
+// AddProductForm.js
+import config from '../Config';
 
+const baseUrl = config.BASE_URL;
 function RoleSelectionPage() {
   const navigate = useNavigate();
 

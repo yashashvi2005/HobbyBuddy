@@ -4,8 +4,11 @@ import axios from "axios";
 import NavbarPage from "./Navbarpage";
 import FooterPage from "./FooterPage";
 import { useNavigate } from "react-router-dom";
-import LikeCommentButtons from "./LikeCommentButton"; // ✅ Ensure it's updated too
+import LikeCommentButtons from "./LikeCommentButton"; 
+// AddProductForm.js
+import config from '../Config';
 
+const baseUrl = config.BASE_URL;
 
 const PhotoGallery = () => {
   const [photos, setPhotos] = useState([]);
@@ -15,13 +18,12 @@ const PhotoGallery = () => {
   const fetchPhotos = async () => {
     try {
       setLoading(true);
-      const response = await axios.get("http://localhost:3000/post/fetch-all-posts-names", {
-        withCredentials: true // ✅ Important for cookie/token auth
+      const response = await axios.get(`${baseUrl}/post/fetch-all-posts-names`, {
+        withCredentials: true
       });
 
       const allPosts = response.data.posts || [];
 
-      // ✅ Strictly filter only photo category + valid image extensions
       const onlyImages = allPosts.filter(
         (post) =>
           post.categoryName?.toLowerCase() === "photo" &&
@@ -61,7 +63,6 @@ const PhotoGallery = () => {
         }}
       >
         <Container>
-          {/* 🔙 Back Button */}
           <div className="mb-4">
             <Button
               variant="light"
@@ -79,12 +80,10 @@ const PhotoGallery = () => {
             </Button>
           </div>
 
-          {/* Header */}
           <h2 className="text-center fw-bold mb-4" style={{ color: primary }}>
-            📸 Explore Photo Gallery
+             Explore Photo Gallery
           </h2>
 
-          {/* Loader or Content */}
           {loading ? (
             <div className="text-center mt-5">
               <Spinner animation="border" variant="primary" />
@@ -125,7 +124,6 @@ const PhotoGallery = () => {
                         {photo.description}
                       </Card.Text>
 
-                      {/* ❤️ Like & 💬 Comment Buttons */}
                       <LikeCommentButtons contentId={photo._id} />
                       
                     </Card.Body>

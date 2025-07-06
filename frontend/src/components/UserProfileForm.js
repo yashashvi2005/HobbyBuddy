@@ -5,6 +5,10 @@ import 'react-toastify/dist/ReactToastify.css';
 import NavbarPage from './Navbarpage';
 import FooterPage from './FooterPage';
 import axios from 'axios';
+// AddProductForm.js
+import config from '../Config';
+
+const baseUrl = config.BASE_URL;
 
 const UserProfileForm = () => {
   const primary = '#a259ff';
@@ -85,7 +89,7 @@ const UserProfileForm = () => {
   data.append('media', formData.profilePhoto);
 
   try {
-    const response = await axios.post('http://localhost:3000/userprofile/create', data, {
+    const response = await axios.post(`${baseUrl}/userprofile/create`, data, {
       withCredentials: true,
       headers: {
         'Content-Type': 'multipart/form-data',
@@ -95,10 +99,10 @@ const UserProfileForm = () => {
     if (response.status === 201 || response.status === 200) {
       setSubmitted(true);
       toast.success('Profile created!');
-      localStorage.setItem("profileCreated", "true"); // ✅ Flag for Navbar
+      localStorage.setItem("profileCreated", "true");
     }
   } catch (err) {
-    console.error("❌ Error submitting profile:", err);
+    console.error(" Error submitting profile:", err);
     toast.error(err.response?.data?.error || 'Something went wrong.');
   }
 };
@@ -106,7 +110,6 @@ const UserProfileForm = () => {
 
   return (
     <>
-      {/* <NavbarPage /> */}
       <div style={{ backgroundColor: '#f9f4ff', minHeight: '100vh', fontFamily: 'Quicksand, sans-serif' }}>
         <Container className="py-5">
           <div className="mx-auto" style={{ maxWidth: '600px', backgroundColor: 'white', borderRadius: '20px', padding: '30px', boxShadow: '0 0 15px rgba(0,0,0,0.1)' }}>
@@ -228,7 +231,6 @@ const UserProfileForm = () => {
             </Form>
           </div>
         </Container>
-        {/* <FooterPage /> */}
       </div>
       <ToastContainer position="top-right" autoClose={3000} />
     </>

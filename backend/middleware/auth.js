@@ -25,7 +25,7 @@ const user = await User.findById(decoded.userId);
       return res.status(404).json({ error: 'User not found.' });
     }
 
-    req.userId = user._id; //  Set userId for controller
+    req.userId = user._id; 
     next();
   } catch (err) {
     console.error('JWT Auth Error:', err.message);

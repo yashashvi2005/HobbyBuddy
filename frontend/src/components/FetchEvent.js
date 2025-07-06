@@ -4,8 +4,11 @@ import axios from "axios";
 import NavbarPage from "./Navbarpage";
 import FooterPage from "./FooterPage";
 import { useNavigate } from "react-router-dom";
-import LikeCommentButtons from "./LikeCommentButton"; // ✅ Import added
+import LikeCommentButtons from "./LikeCommentButton"; 
+// AddProductForm.js
+import config from '../Config';
 
+const baseUrl = config.BASE_URL;
 const EventGallery = () => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -14,7 +17,7 @@ const EventGallery = () => {
   const fetchEvents = async () => {
     try {
       setLoading(true);
-      const res = await axios.get("http://localhost:3000/post/fetch-all-posts-names");
+      const res = await axios.get(`${baseUrl}/post/fetch-all-posts-names`);
       const allPosts = res.data.posts || [];
 
       const onlyEvents = allPosts.filter(
@@ -45,7 +48,7 @@ const EventGallery = () => {
       <div style={{ backgroundColor: background, minHeight: "100vh", padding: "30px 0", fontFamily: "Quicksand, sans-serif" }}>
         <Container>
           <div className="d-flex justify-content-between align-items-center mb-4">
-            <h2 className="fw-bold" style={{ color: primary }}>📅 Explore Events</h2>
+            <h2 className="fw-bold" style={{ color: primary }}> Explore Events</h2>
             <Button
               variant="light"
               onClick={() => navigate(-1)}
@@ -83,7 +86,6 @@ const EventGallery = () => {
                       onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.02)")}
                       onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}>
                       
-                      {/* Media */}
                       {mediaUrl ? (
                         mediaUrl.endsWith(".mp4") ? (
                           <video
@@ -119,7 +121,6 @@ const EventGallery = () => {
                         </Card.Title>
                         <Card.Text className="text-muted">{ev.description}</Card.Text>
 
-                        {/* ❤️ Like & 💬 Comment Buttons */}
                         <LikeCommentButtons contentId={ev._id} />
                       </Card.Body>
                     </Card>

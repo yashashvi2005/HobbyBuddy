@@ -6,7 +6,10 @@ import hobby4 from "../assets/ai.avif"
 import NavbarPage from './Navbarpage';
 import FooterPage from './FooterPage';
 import { useNavigate } from 'react-router-dom';
+// AddProductForm.js
+import config from '../Config';
 
+const baseUrl = config.BASE_URL;
 const ExplorePage = () => {
   const primary = '#a259ff';
   const secondary = '#ff66c4';
@@ -48,7 +51,7 @@ const ExplorePage = () => {
       <NavbarPage />
       <div style={{ backgroundColor: '#f9f4ff', minHeight: '100vh', fontFamily: 'Quicksand, sans-serif', paddingTop: '60px', paddingBottom: '60px' }}>
         <Container>
-          <h2 className="text-center fw-bold mb-5" style={{ color: primary }}>✨ Explore Content</h2>
+          <h2 className="text-center fw-bold mb-5" style={{ color: primary }}> Explore Content</h2>
           <Row className="g-4">
             {sections.map((section, index) => (
               <Col key={index} xs={12} sm={6} lg={3}>

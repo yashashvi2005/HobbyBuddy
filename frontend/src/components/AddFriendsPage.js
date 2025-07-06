@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import FooterPage from "./FooterPage";
-import NavbarPage from "./Navbarpage";
+import NavbarPage from "./Navbarpage";// AddProductForm.js
+import config from '../Config';
+
+const baseUrl = config.BASE_URL;
 
 function AddFriendsPage() {
   const [users, setUsers] = useState([]);
@@ -17,7 +20,7 @@ function AddFriendsPage() {
 
   const fetchUsers = async () => {
     try {
-      const res = await axios.get('http://localhost:3000/user/fetch-users', {
+      const res = await axios.get(`${baseUrl}/user/fetch-users`, {
         withCredentials: true,
       });
       setUsers(res.data.users);
@@ -33,16 +36,16 @@ function AddFriendsPage() {
   const sendFriendRequest = async (receiverId) => {
     try {
       const response = await axios.post(
-        'http://localhost:3000/user/send-request',
+        `${baseUrl}/user/send-request`,
         { receiverId },
         { withCredentials: true }
       );
       setRequestsSent((prev) => [...prev, receiverId]);
     } catch (error) {
       if (error?.response?.data?.message) {
-        alert(`❌ ${error.response.data.message}`);
+        alert(` ${error.response.data.message}`);
       } else {
-        alert("❌ Something went wrong while sending the friend request.");
+        alert(" Something went wrong while sending the friend request.");
       }
     }
   };
@@ -95,7 +98,7 @@ function AddFriendsPage() {
                     disabled={requestsSent.includes(user._id)}
                   >
                     {requestsSent.includes(user._id)
-                      ? "Request Sent ✅"
+                      ? "Request Sent "
                       : "Send Friend Request"}
                   </button>
                 )}
@@ -107,7 +110,6 @@ function AddFriendsPage() {
 
       <FooterPage />
 
-      {/* 🎨 Styling */}
       <style>{`
         .user-card {
           background: linear-gradient(to bottom right, #e7f3ff, #f3f9ff);

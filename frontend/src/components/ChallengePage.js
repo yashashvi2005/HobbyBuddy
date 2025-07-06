@@ -4,7 +4,10 @@ import FooterPage from './FooterPage';
 import NavbarPage from './Navbarpage';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+// AddProductForm.js
+import config from '../Config';
 
+const baseUrl = config.BASE_URL;
 const ChallengeList = () => {
   const primary = '#a259ff';
   const secondary = '#ff66c4';
@@ -18,7 +21,7 @@ const ChallengeList = () => {
 
   const fetchChallenges = async () => {
     try {
-      const res = await axios.get("http://localhost:3000/user/fetch-all-challenges", {
+      const res = await axios.get(`${baseUrl}/user/fetch-all-challenges`, {
         withCredentials: true,
       });
       setChallenges(res.data.challenges);
@@ -39,7 +42,7 @@ const ChallengeList = () => {
     }
 
     try {
-      const res = await axios.post(`http://localhost:3000/user/watch-video/${userId}`, {
+      const res = await axios.post(`${baseUrl}/user/watch-video/${userId}`, {
         videoId,
         challengeId
       }, {
@@ -60,7 +63,7 @@ const ChallengeList = () => {
       <div style={{ backgroundColor: "#f9f4ff", minHeight: "100vh", paddingBottom: "50px" }}>
         <div className="container py-5">
           <h2 className="text-center fw-bold mb-4" style={{ color: primary }}>
-            🎯 All Challenges
+             All Challenges
           </h2>
 
           {loading && (
@@ -86,7 +89,7 @@ const ChallengeList = () => {
                     </h4>
                     <p className="text-muted">{challenge.description}</p>
                     <p className="fw-medium">
-                      🎁 <strong>Points per Video:</strong>{' '}
+                       <strong>Points per Video:</strong>{' '}
                       <span style={{ color: primary }}>{challenge.pointsPerVideo}</span>
                     </p>
 
@@ -106,7 +109,7 @@ const ChallengeList = () => {
                     </div>
 
                     <p className="text-muted mt-3 mb-0" style={{ fontSize: '0.9rem' }}>
-                      📅 Created At: {new Date(challenge.createdAt).toLocaleString()}
+                       Created At: {new Date(challenge.createdAt).toLocaleString()}
                     </p>
                   </div>
                 </div>

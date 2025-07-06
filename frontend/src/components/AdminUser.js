@@ -1,19 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import AdminDashboard from './AdminDashboard';
+// AddProductForm.js
+import config from '../Config';
 
+const baseUrl = config.BASE_URL;
 function UserManagement() {
   const [users, setUsers] = useState([]);
   const [error, setError] = useState('');
 
   const fetchUsers = async () => {
     try {
-      const res = await axios.get('http://localhost:3000/admin/fetch-users', {
+      const res = await axios.get(`${baseUrl}/admin/fetch-users`, {
         withCredentials: true,
       });
       setUsers(res.data.users);
     } catch (err) {
-      setError('🚫 Failed to fetch users');
+      setError(' Failed to fetch users');
     }
   };
 
@@ -23,25 +26,20 @@ function UserManagement() {
 
   return (
     <div className="d-flex">
-      {/* Sidebar */}
       <AdminDashboard />
 
-      {/* Main Content */}
       <div className="flex-grow-1 bg-body p-4 overflow-auto" style={{ minHeight: '100vh', backgroundColor: '#f0f8ff' }}>
-        {/* Page Heading */}
         <div className="text-center mb-4">
-          <h1 className="fw-bold text-primary">👥 User Management</h1>
+          <h1 className="fw-bold text-primary"> User Management</h1>
           <p className="text-secondary">Browse all registered users in the system</p>
         </div>
 
-        {/* Error Alert */}
         {error && (
           <div className="alert alert-danger text-center fw-semibold mt-3">
             {error}
           </div>
         )}
 
-        {/* User Cards */}
         {users.length === 0 && !error ? (
           <div className="text-center text-muted fs-5 mt-4">⏳ Loading users...</div>
         ) : (
@@ -76,7 +74,6 @@ function UserManagement() {
           </div>
         )}
 
-        {/* Custom CSS */}
         <style>{`
           .user-card {
             background-color:rgba(13, 110, 253, 0.25);

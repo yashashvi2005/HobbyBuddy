@@ -1,22 +1,21 @@
-// src/components/GoogleLoginButton.js
-import React from "react";
 import { auth, provider, signInWithPopup } from "../firebase";
 import axios from "axios";
+// AddProductForm.js
+import config from '../Config';
 
+const baseUrl = config.BASE_URL;
 const GoogleLogin = () => {
   const handleGoogleLogin = async () => {
     try {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
-      const token = await user.getIdToken(); // ✅ Firebase token
+      const token = await user.getIdToken(); 
 
-      // ✅ Send token to backend for verification
-      const res = await axios.post("http://localhost:5000/api/firebase-login", {
+      const res = await axios.post(`${baseUrl}/api/firebase-login`, {
         token,
       });
 
       console.log("Login success:", res.data);
-      // Store user in localStorage / context if needed
     } catch (error) {
       console.error("Google Sign-In failed", error);
     }

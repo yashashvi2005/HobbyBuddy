@@ -2,7 +2,10 @@ import React, { useState } from 'react';
 import { Container, Form, Button, Spinner } from 'react-bootstrap';
 import { toast, ToastContainer } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+// AddProductForm.js
+import config from '../Config';
 
+const baseUrl = config.BASE_URL;
 const ForgotPassword = () => {
   const primary = '#a259ff';
   const navigate = useNavigate();
@@ -46,7 +49,7 @@ const ForgotPassword = () => {
     if (step === 0) {
       appendMessage({ from: 'user', text: email });
 
-      const res = await fetch('http://localhost:3000/user/forgot-password', {
+      const res = await fetch(`${baseUrl}/user/forgot-password`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email })
@@ -65,7 +68,7 @@ const ForgotPassword = () => {
     if (step === 1) {
       appendMessage({ from: 'user', text: otp });
 
-      const res = await fetch('http://localhost:3000/user/verify-forgot-otp', {
+      const res = await fetch(`${baseUrl}/user/verify-forgot-otp`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, otp })
@@ -91,7 +94,7 @@ const ForgotPassword = () => {
         return;
       }
 
-      const res = await fetch('http://localhost:3000/user/reset-password', {
+      const res = await fetch(`${baseUrl}/user/reset-password`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, newPassword })
@@ -101,7 +104,7 @@ const ForgotPassword = () => {
       if (res.ok) {
         appendMessage({ from: 'bot', text: 'Password changed successfully! You can now login.' });
         toast.success("Password changed!");
-        sessionStorage.removeItem("otpVerified"); // Clear after success
+        sessionStorage.removeItem("otpVerified");
         setTimeout(() => navigate('/sign-in'), 2000);
       } else {
         appendMessage({ from: 'bot', text: data.message });

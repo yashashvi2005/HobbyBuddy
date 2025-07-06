@@ -8,30 +8,35 @@ import {getLeaderboard } from "../controllers/leaderboard.controller.js";
 import auth from "../middleware/auth.js";
 import {uploadSingleMedia} from "../middleware/multer.js";
 import {upload} from "../middleware/multer.js"
+import adminAuth from "../middleware/adminauth.js";
+
 
 
 const router = express.Router();
 
 router.post("/sign-in",adminSignin);
-
-router.post("/add-category",createCategory);
-router.get("/fetch-category",getAllCategories);
-router.delete("/delete-category/:categoryId",deleteCategory);
-
-router.get("/fetch-users",getAllUsers);
-
-router.post("/add-post",auth,uploadSingleMedia,addPost);
-router.delete("/delete-Post/:mediaId", deletePost);
-router.get("/fetch-all-post",getAllPosts);
-router.get("/fetch-all-posts-names",getAllPostsNames);
+router.get("/check-auth", adminAuth, (req, res) => 
+  res.json({ role: req.user.role })
+);
 
 
-router.post("/add-challenge",auth,upload.array("videos"),createChallenge);
-router.get("/fetch-all-challenges",getAllChallenges);
-router.delete("/delete-challenge/:challengeId",auth, deleteChallenge);
-router.put("/update-challenge/:challengeId",auth,upload.array("videos"), updateChallenge);
+router.post("/add-category",adminAuth,createCategory);
+router.get("/fetch-category",adminAuth,getAllCategories);
+router.delete("/delete-category/:categoryId",adminAuth,deleteCategory);
+
+router.get("/fetch-users",adminAuth,getAllUsers);
+
+router.post("/add-post",adminAuth,uploadSingleMedia,addPost);
+router.delete("/delete-Post/:mediaId",adminAuth, deletePost);
+router.get("/fetch-all-post",adminAuth,getAllPosts);
+router.get("/fetch-all-posts-names",adminAuth,getAllPostsNames);
 
 
-router.get("/fetch-leaderboard", getLeaderboard);
+router.post("/add-challenge",adminAuth,upload.array("videos"),createChallenge);
+router.get("/fetch-all-challenges",adminAuth,getAllChallenges);
+router.delete("/delete-challenge/:challengeId",adminAuth, deleteChallenge);
+router.put("/update-challenge/:challengeId",adminAuth,upload.array("videos"), updateChallenge);
+
+router.get("/fetch-leaderboard",adminAuth, getLeaderboard);
 
 export default router ;  
