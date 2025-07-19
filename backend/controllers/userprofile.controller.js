@@ -13,8 +13,10 @@ export const saveUserDetails = async (req, res) => {
     }
 
     const profilepicture = req.file
-      ? `/uploads/photos/${req.file.filename}`
-      : req.body.profilepicture || null;
+      // ? `/uploads/photos/${req.file.filename}`
+      // : req.body.profilepicture || null;
+      ? req.file.path
+  : req.body.profilepicture || null;
 
     let hobbiesArray = [];
     if (Array.isArray(hobbies)) {
@@ -82,8 +84,10 @@ export const updateUserDetails = async (req, res) => {
     const { name, age, gender, city, hobbies } = req.body || {};
 
     const profilepicture = req.file
-      ? `/uploads/photos/${req.file.filename}`
-      : req.body?.profilepicture || undefined;
+      // ? `/uploads/photos/${req.file.filename}`
+      // : req.body?.profilepicture || undefined;
+      ? req.file.path
+  : req.body.profilepicture || null;s
 
     console.log("Update Request Body:", req.body);
     console.log("Update File Info:", req.file || req.files);
