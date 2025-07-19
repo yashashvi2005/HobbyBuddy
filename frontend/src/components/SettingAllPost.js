@@ -122,8 +122,6 @@
 // export default AllPosts;
 
 
-
-
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Card, Spinner, Button } from "react-bootstrap";
@@ -134,15 +132,6 @@ const baseUrl = config.BASE_URL;
 const AllPosts = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
-
-  const getFullMediaUrl = (mediaUrl) => {
-  if (!mediaUrl) return "";
-  if (mediaUrl.startsWith("/uploads")) {
-    return `${baseUrl}${mediaUrl}`; // ✅ Fix: connect backend uploads path
-  }
-  return mediaUrl; // for full URLs
-};
-
 
   const fetchUserPosts = async () => {
     try {
@@ -176,6 +165,13 @@ const AllPosts = () => {
     fetchUserPosts();
   }, []);
 
+  // ✅ Helper to get full URL
+  const getFullMediaUrl = (mediaUrl) => {
+    if (!mediaUrl) return "";
+    if (mediaUrl.startsWith("http")) return mediaUrl;
+    return `${baseUrl}/uploads/${mediaUrl}`;
+  };
+
   if (loading) {
     return (
       <div className="text-center py-4">
@@ -198,9 +194,7 @@ const AllPosts = () => {
         <p className="text-muted text-center w-100">You haven't added any posts yet.</p>
       ) : (
         posts.map((post, index) => {
-          const mediaUrl = getFullMediaUrl(post.mediaUrl);
-           console.log("MEDIA URL:", getFullMediaUrl(post.mediaUrl));
-
+          const fullUrl = getFullMediaUrl(post.mediaUrl);
           return (
             <div
               key={post._id || index}
@@ -212,18 +206,18 @@ const AllPosts = () => {
                 boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
               }}
             >
-              {mediaUrl.endsWith(".mp4") ? (
+              {post.mediaUrl?.endsWith(".mp4") ? (
                 <video
                   controls
                   className="w-100 rounded"
                   style={{ maxHeight: "180px", objectFit: "cover", borderRadius: "15px" }}
                 >
-                  <source src={mediaUrl} type="video/mp4" />
+                  <source src={fullUrl} type="video/mp4" />
                   Your browser does not support the video tag.
                 </video>
               ) : (
                 <img
-                  src={mediaUrl}
+                  src={fullUrl}
                   alt="Post Media"
                   className="w-100 rounded"
                   style={{ maxHeight: "180px", objectFit: "cover", borderRadius: "15px" }}
